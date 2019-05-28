@@ -1,9 +1,14 @@
+
+var output = document.getElementById('result');
+
 var getNameAndLocation = function (obj) {
     return {
         name: obj.name.first + ' ' + obj.name.last,
         location: (obj.location.city + ' ' + obj.location.state)
     }
 };
+
+
 
 function usingFetchAPI() {
     fetch('https://randomuser.me/api/')
@@ -18,15 +23,21 @@ async function usingAsyncI() {
     try {
         let response = await fetch('https://randomuser.me/api/');
         let json = await response.json();
-         ((json.results[0])).then(function (data) {
-            console.log(getNameAndLocation(data));
-        });
+        return  ((json.results[0]));
     } catch (e) {
 
     }
 }
 
-usingAsyncI();
+function usingAsynAPI() {
+    usingAsyncI().then(
+        function (results) {
+            console.log(getNameAndLocation(results));
+        }
+    );
+}
+
+usingAsynAPI();
 usingFetchAPI();
 
 
