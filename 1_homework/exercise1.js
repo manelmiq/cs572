@@ -26,7 +26,7 @@ async function filterAsync(arr, element) {
 }
 
 Array.prototype.removeNum = function (num) {
-    var result ;
+
     filterArray(this, num).then(function (results) {
         console.log(results);
         result = results;
@@ -35,7 +35,7 @@ Array.prototype.removeNum = function (num) {
             console.log('');
         }
     );
-    return result;
+
 
     // return  filterAsync(this, num)
     //      .then(
@@ -47,6 +47,10 @@ Array.prototype.removeNum = function (num) {
 
 
 console.log("Start");
-console.log([1, 3, 4, 2, 1, 5].removeNum(1));
+[1, 3, 4, 2, 1, 5].removeNum(1);
 console.log("Finish");
 
+
+
+
+console.log("2. This function will be push on callback queue(event loop) and will execute later that the both console log");
