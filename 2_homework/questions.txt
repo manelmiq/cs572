@@ -1,0 +1,44 @@
+
+
+1. Why you want to use sometimes setImmediate instead of using setTimeout?
+
+1 -
+setTimeout is simply like calling the function after delay has finished. Whenever a function is called it is not executed immediately,
+ but queued so that it is executed after all the executing and currently queued eventhandlers finish first.
+ setTimeout(,0) essentially means execute after all current functions in the present queue get executed.
+ No guarantees can be made about how long it could take.
+
+    setImmediate is similar in this regard except that it doesn’t use queue of functions.
+    It checks queue of I/O eventhandlers. If all I/O events in the current snapshot are processed,
+    it executes the callback. It queues them immedieately after the last I/O handler somewhat like process.nextTick. So it is faster.
+    Also (setTimeout,0) will be slow because it will check the timer at least once before executing. At times it can be twice as slow.
+
+
+
+2. Explain the difference between process.nextTick and setImmediate?'
+2 - the process nextTick has another priority queue then setImmediate 
+
+3. Name 10 core module that node provide by default?
+
+3 -
+
+Just execute the command require("module").builtinModules
+  'assert',
+  'buffer',
+  'child_process',
+  'console',
+  'constants',
+  'crypto',
+  'cluster',
+  'dgram',
+  'dns',
+  'domain',
+  'events',
+  'fs',
+  'http',
+  'http2',
+  '_http_agent',
+  '_http_client',
+  '_http_common',
+  '_http_incoming',
+  '_http_outgoing',
