@@ -1,6 +1,21 @@
 var express = require('express');
 var router = express.Router();
+const {check, validationResult} = require('express-validator/check');
 
+
+// const requireJsonContent = () => {
+//     return (req, res, next) => {
+//         console.log('required json');
+//         try {
+//             JSON.parse(Object.keys(req.body)[0]);
+//         } catch (e) {
+//             res.status(400).send('Server requires json');
+//             console.log("not JSON");
+//         }
+//         next()
+//     }
+// };
+//
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -18,16 +33,29 @@ router.get('/:id', function (req, res, next) {
 });
 
 
-router.post('/', function (req, res, next) {
-    let newGrade = {
-        id: grades.length + 1,
-        name: req.body.name,
-        course: req.body.course,
-        grade: req.body.grade
-    };
-    grades.push(newGrade);
-    res.send('Data inserted with successful!' + JSON.stringify(newGrade));
-});
+
+
+router.post('/',
+    [
+        check('name').isLength({min: 5}),
+        check('course').isLength({min: 3, max:5}),
+        check('grade').isNumeric()
+    ]
+    ,    function (req, res, next) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array()});
+        }
+
+        let newGrade = {
+            id: grades.length + 1,
+            name: req.body.name,
+            course: req.body.course,
+            grade: req.body.grade
+        };
+        grades.push(newGrade);
+        res.send('Data inserted with successful!' + JSON.stringify(newGrade));
+    });
 
 
 router.patch('/:id', function (req, res, next) {
