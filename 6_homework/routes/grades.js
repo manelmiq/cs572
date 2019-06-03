@@ -3,18 +3,27 @@ var router = express.Router();
 const {check, validationResult} = require('express-validator/check');
 
 
-// const requireJsonContent = () => {
-//     return (req, res, next) => {
-//         console.log('required json');
-//         try {
-//             JSON.parse(Object.keys(req.body)[0]);
-//         } catch (e) {
-//             res.status(400).send('Server requires json');
-//             console.log("not JSON");
-//         }
-//         next()
-//     }
-// };
+const requireJsonContent = function () {
+    return (req, res, next) => {
+        console.log('require Json Middleware');
+        console.log(req.body);
+        try {
+            // let debug = 1;
+            JSON.parse(JSON.stringify(req.body));
+            next();
+        } catch (e) {
+            console.log(e);
+            sendError(req, res, next)
+        }
+
+    }
+}
+
+function sendError (req, res, next){
+    let error = new Error('Server requires application/json');
+    error.status = 500;
+    next(error)
+}
 //
 
 /* GET users listing. */
@@ -24,24 +33,19 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/:id', function (req, res, next) {
-
     res.send(grades.filter(function (item) {
         return item.id == req.params.id;
     })[0]);
     logger.logResponse(res.id, res, 200);
-
 });
 
 
-
-
-router.post('/',
+router.post('/',   requireJsonContent(),
     [
         check('name').isLength({min: 5}),
-        check('course').isLength({min: 3, max:5}),
+        check('course').isLength({min: 3, max: 5}),
         check('grade').isNumeric()
-    ]
-    ,    function (req, res, next) {
+    ], function (req, res, next) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({errors: errors.array()});
@@ -80,5 +84,8 @@ router.delete('/:id', function (req, res, next) {
     });
     res.send('Deleted with successful' + req.params.id);
 });
+
+
+
 
 module.exports = router;
