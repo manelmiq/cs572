@@ -1,0 +1,17 @@
+{
+    _id: 1,
+    first_name: "emmanuell",
+    last_name: "miqueletti",
+    borrow_books: [
+        {
+            id: 1,
+            book_name: "game of thrones",
+            due_date: "05-04-2019"
+        },
+        {
+            id: 2,
+            book_name: "lord of rings",
+            due_date: "06-01-2019"
+        }
+    ]
+}
