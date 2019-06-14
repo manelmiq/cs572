@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template:  `
-    <div isVisible=visible>This is a visible element</div>    
-    <div isVisible=false>This is a hidden element</div>        
-    <div appMakeBigger >Click me and I will grow</div>
+  template: `
+    <div [isVisible]="true">This is a visible element!</div>
+    <div [isVisible]="false">This is a hidden element!</div>
+    <span makeBigger="20px">Click me and I will grow</span>
+    <br>
+    {{ assad | multi:3}}
+    
     <app-smart-component></app-smart-component>
   `,
   styleUrls: ['./app.component.css']
@@ -13,5 +16,6 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
   title = 'Directives';
-  visible = true;
+  assad = 'assad saad'
+  // visible = true;
 }

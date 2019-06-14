@@ -1,5 +1,3 @@
-
-
 import {Directive, ElementRef, Input, Renderer2, OnInit, HostListener} from '@angular/core';
 
 @Directive({
@@ -7,19 +5,22 @@ import {Directive, ElementRef, Input, Renderer2, OnInit, HostListener} from '@an
 })
 export class MakeBiggerDirective implements OnInit {
 
-  @Input('makeBigger') fontSize: boolean;
+  @Input('makeBigger') fontSize: string;
 
-  constructor(private elRef: ElementRef, private renderer: Renderer2) {
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) {
   }
 
   ngOnInit() {
-    this.renderer.setStyle(this.elRef.nativeElement, 'fontSize', this.fontSize);
+    this.renderer.setStyle(this.elementRef.nativeElement, 'fontSize', this.fontSize);
   }
 
-  @HostListener('click') mouseEnter() {
-    let currentSize: number = parseInt(this.elRef.nativeElement.style.fontSize.replace("px", ""));
-    currentSize += 2;
-    this.renderer.setStyle(this.elRef.nativeElement, 'fontSize', currentSize + "px");
+
+  @HostListener('click', ['$event'])
+  clickEvent(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    let newSize = (parseInt(this.elementRef.nativeElement.style.fontSize) + 2 ) + "px";
+    this.renderer.setStyle(this.elementRef.nativeElement, 'fontSize', newSize );
   }
 
 }

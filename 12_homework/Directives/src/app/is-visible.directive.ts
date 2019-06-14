@@ -1,9 +1,9 @@
 import {Directive, ElementRef, Input, Renderer2, OnInit} from '@angular/core';
 
 @Directive({
-  selector: '[appMakeBigger]'
+  selector: '[isVisible]'
 })
-export class IsVisibleDirective implements OnInit{
+export class IsVisibleDirective implements OnInit {
 
   @Input('isVisible') visible: boolean;
 
@@ -11,7 +11,7 @@ export class IsVisibleDirective implements OnInit{
   }
 
   ngOnInit() {
-    if (this.visible == true ) {
+    if (this.visible == true) {
       this.renderer.setStyle(this.elRef.nativeElement, 'display', 'block')
     } else {
       this.renderer.setStyle(this.elRef.nativeElement, 'display', 'none')
